@@ -7,6 +7,10 @@ from PIL import Image, ImageTk
 import requests
 import webbrowser
 
+BACKGROUND = "#204985"
+FOREGROUND = "#ffffff"
+FONT_LOOK = "Rubik", 12, "bold"
+
 root = Tk()  # Create object
 root.title("My Python Journey")
 root.geometry("404x404")  # Adjust size
@@ -29,7 +33,7 @@ TODAY = dt.now()
 
 
 def open_browser():
-    webbrowser.open(url=URL, new=1)
+    webbrowser.open(url=pixela_graph_url, new=1)
 
 
 def format_date():
@@ -45,7 +49,7 @@ def add_pixel():
         "quantity": user_in.get(),
     }
     response = requests.post(
-        url=PIXELA_ENDPOINT, json=pixel_add, headers=headers)
+        url=pixela_endpoint, json=pixel_add, headers=headers)
     response.raise_for_status()
     user_in.delete(0, END)
     messagebox.showinfo(title="Infobox", message="Pixel added.")
@@ -54,7 +58,7 @@ def add_pixel():
 def del_pixel():
     formatted_date = format_date()
     response = requests.delete(
-        url=f"{PIXELA_ENDPOINT}/{formatted_date}", headers=headers)
+        url=f"{pixela_endpoint}/{formatted_date}", headers=headers)
     response.raise_for_status()
     messagebox.showinfo(title="Infobox", message="Pixel deleted.")
 
@@ -65,7 +69,7 @@ def change_pixel():
         "quantity": user_in.get()
     }
     response = requests.put(
-        url=f"{PIXELA_ENDPOINT}/{formatted_date}", json=pixel_update, headers=headers)
+        url=f"{pixela_endpoint}/{formatted_date}", json=pixel_update, headers=headers)
     response.raise_for_status()
     user_in.delete(0, END)
     messagebox.showinfo(title="Infobox", message="Pixel updated.")
